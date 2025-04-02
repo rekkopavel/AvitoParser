@@ -2,29 +2,30 @@
 
 namespace App\Console\Commands;
 
+use App\Services\Parser\Parser;
 use Illuminate\Console\Command;
 
-class StartParsing extends Command
+class RunParsing extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:start-parsing';
+    protected $signature = 'parser:run';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Start parsing and writing to database';
+    protected $description = 'Do parsing and write data  to database';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-
+        app(Parser::class)->runParsing();
     }
 }

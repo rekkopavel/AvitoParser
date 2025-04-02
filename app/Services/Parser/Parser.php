@@ -8,20 +8,25 @@ use App\Services\Parser\linkExtractor;
 
 class Parser
 {
-    private const Kill_CHROME_COMMAND = 'taskkill /f /t /im chrome.exe';
 
-    public function runParsing(linkExtractor $linkExtractor, linkSaver $linkSaver,): void
+
+    private linkExtractor $linkExtractor;
+    private linkSaver $linkSaver;
+
+    public function __construct(linkExtractor $linkExtractor, linkSaver $linkSaver)
     {
-
-        $productsUris = $linkExtractor->getProductsLinks();
-
-        $uriQuantity = $linkSaver->saveLinksToBase($productsUris);
-
-        if ($uriQuantity > 0) {
-            event(new NewProdutsFound());
-        }
-
+        $this->linkExtractor = $linkExtractor;
+        $this->linkSaver = $linkSaver;
     }
 
+    public function runParsing(): ?int
+    {
+        $productsLinks = $this->linkExtractor->getProductsLinks();
+        $linksNumber = $this->linkSaver->saveLinksToBase($productsLinks);
 
+        if ($linksNumber > 0) {
+            event(new NewProdutsFound());
+        }
+        return $linksNumber;
+    }
 }
