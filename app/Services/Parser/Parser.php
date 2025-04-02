@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services\Parser;
 
-use App\Events\NewProdutsFound;
+use App\Events\NewProductsFound;
 use App\Services\Parser\linkExtractor;
 
 class Parser
@@ -25,7 +25,7 @@ class Parser
         $linksNumber = $this->linkSaver->saveLinksToBase($productsLinks);
 
         if ($linksNumber > 0) {
-            event(new NewProdutsFound());
+            event(new NewProductsFound($productsLinks));
         }
         return $linksNumber;
     }

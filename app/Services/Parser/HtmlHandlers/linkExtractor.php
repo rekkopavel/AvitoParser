@@ -15,7 +15,7 @@ class linkExtractor
         foreach (config('parser.queries') as $query){
             $arrayQueryDto[] = QueryParamsDTO::fromConfig($query);
         }
-
+       $this->
 return [];
     }
 }
