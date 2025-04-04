@@ -1,14 +1,6 @@
 <?php
 
-
 return [
     'bot_token' => '5161694418:AAHZu6CIUxjlJXxF8LMz1kOY0pxlpDnKY7g',
-
-
-    'queries' => [
-        'orel_all' => ['title' => 'Поиск по всем ноутам', 'city' => 'Орел', 'uri' => 'https://www.avito.ru/orlovskaya_oblast/noutbuki?f=ASgCAQECAUDwvA0UiNI0AUXGmgwYeyJmcm9tIjo3MDAwLCJ0byI6MjAwMDB9&s=104'],
-        'bryansk_all' => ['title' => 'Поиск по всем ноутам', 'city' => 'Брянск', 'uri' => 'https://www.avito.ru/bryanskaya_oblast/noutbuki?f=ASgCAQECAUDwvA0UiNI0AUXGmgwYeyJmcm9tIjo3MDAwLCJ0byI6MjAwMDB9&s=104'],
-
-    ]
 
 ];
