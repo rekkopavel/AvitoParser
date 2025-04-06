@@ -4,7 +4,7 @@ namespace App\Services\Parser\Repositories;
 
 use App\Models\Query;
 
-class queryRepository
+class QueryRepository
 {
     public function findAllQueries():array
     {

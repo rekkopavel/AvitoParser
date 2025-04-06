@@ -2,9 +2,9 @@
 
 namespace App\Services\Parser\DataBaseManagers;
 
-use App\Models\Porduct;
+use App\Models\Product;
 
-class productManager
+class ProductManager
 {
     public function save(array $links): int
     {
@@ -14,7 +14,7 @@ class productManager
 
 
             try {
-                Porduct::create([
+                Product::create([
                     'title' => $link['title'],
                     'city' => $link['city'] ?? null,
                     'uri' => $link['uri'],

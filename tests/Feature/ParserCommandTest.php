@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Porduct;
+use App\Models\Product;
 use App\Models\Subscriber;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -15,7 +15,7 @@ class ParserCommandTest extends TestCase
 
         Notification::fake();
 
-        Porduct::truncate();
+        Product::truncate();
 
         $this->artisan('db:seed')
             ->assertExitCode(0);
@@ -27,7 +27,7 @@ class ParserCommandTest extends TestCase
         $this->assertDatabaseCount('links', 1);
 
 
-        $link = Porduct::first();
+        $link = Product::first();
 
 
         $this->assertNotEmpty($link->url);

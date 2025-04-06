@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('tittle',300);
             $table->string('city',100);
             $table->string('uri',300);
+            $table->text('html');
             $table->timestamps();
         });
     }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Parser;
+namespace App\Services\Parser\HtmlServices;
 
-class htmlFetcher
+class HtmlFetcher
 {
     private const Kill_CHROME_COMMAND = 'taskkill /f /t /im chrome.exe';
 
-    public function getHtml($rParseVersions)
+    public function getPageHtml($rParseVersions)
     {
 
         $res = exec("node index.js --url=" . $rParseVersions->sUriSearch);

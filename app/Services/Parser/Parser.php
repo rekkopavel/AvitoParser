@@ -19,11 +19,11 @@ class Parser
     public function runParsing(): ?int
     {
         $queriesArray = $this->queryRepository->findAllQueries();
-        $productsArray = $this->productExtractor->getAllProducts($queriesArray);
-        $productsNumber = $this->productManager->save($productsArray);
+        $productsLinksArray = $this->productExtractor->getAllProductsLinks($queriesArray);
+        $productsNumber = $this->productManager->save($productsLinksArray);
 
         if ($productsNumber > 0) {
-            event(new NewProductsFound($productsArray));
+            event(new NewProductsFound($productsLinksArray));
         }
         return $productsNumber;
     }
