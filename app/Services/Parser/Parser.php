@@ -4,29 +4,27 @@ declare(strict_types=1);
 namespace App\Services\Parser;
 
 use App\Events\NewProductsFound;
-use App\Services\Parser\linkExtractor;
+use App\Services\Parser\DataBaseManagers\productManager;
+use App\Services\Parser\HtmlServices\productExtractor;
+use App\Services\Parser\Repositories\queryRepository;
 
 class Parser
 {
 
 
-    private linkExtractor $linkExtractor;
-    private linkSaver $linkSaver;
-
-    public function __construct(linkExtractor $linkExtractor, linkSaver $linkSaver)
+    public function __construct(private queryRepository $queryRepository, private productExtractor $productExtractor, private productManager $productManager)
     {
-        $this->linkExtractor = $linkExtractor;
-        $this->linkSaver = $linkSaver;
     }
 
     public function runParsing(): ?int
     {
-        $productsLinks = $this->linkExtractor->getProductsLinks();
-        $linksNumber = $this->linkSaver->saveLinksToBase($productsLinks);
+        $queriesArray = $this->queryRepository->findAllQueries();
+        $productsArray = $this->productExtractor->getAllProducts($queriesArray);
+        $productsNumber = $this->productManager->save($productsArray);
 
-        if ($linksNumber > 0) {
-            event(new NewProductsFound($productsLinks));
+        if ($productsNumber > 0) {
+            event(new NewProductsFound($productsArray));
         }
-        return $linksNumber;
+        return $productsNumber;
     }
 }

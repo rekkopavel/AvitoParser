@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Parser;
+namespace App\Services\Parser\DataBaseManagers;
 
-use App\Models\Link;
+use App\Models\Porduct;
 
-class linkSaver
+class productManager
 {
-    public function saveLinksToBase(array $links):int
+    public function save(array $links): int
     {
         $savedCount = 0;
 
@@ -14,9 +14,10 @@ class linkSaver
 
 
             try {
-                Link::create([
+                Porduct::create([
+                    'title' => $link['title'],
+                    'city' => $link['city'] ?? null,
                     'uri' => $link['uri'],
-                    'title' => $link['title'] ?? null,
 
                 ]);
 
@@ -29,6 +30,5 @@ class linkSaver
 
         return $savedCount;
     }
-
 
 }
