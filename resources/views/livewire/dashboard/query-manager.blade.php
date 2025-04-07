@@ -27,7 +27,8 @@
             <div>
                 <label>Status</label>
                 <div class="flex items-center space-x-2">
-                    <input type="checkbox" wire:model="status" class="h-5 w-5">
+                    <!-- Используем checkbox для переключения статуса -->
+                    <input type="checkbox" wire:model="status" class="h-5 w-5" id="status">
                     <span>{{ $status ? 'Активен' : 'Не активен' }}</span>
                 </div>
             </div>
@@ -58,13 +59,14 @@
                 <td class="px-4 py-2">{{ $query->city }}</td>
                 <td class="px-4 py-2">{{ $query->status ? 'Активен' : 'Не активен' }}</td>
                 <td class="px-4 py-2">
-                    <button wire:click="edit({{ $query->id }})" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">
-                        Редактировать
-                    </button>
-                    <!-- Кнопка для удаления -->
-                    <button wire:click="delete({{ $query->id }})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300 ml-2">
-                        Удалить
-                    </button>
+                    <div class="flex space-x-2">
+                        <button wire:click="edit({{ $query->id }})" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">
+                            Редактировать
+                        </button>
+                        <button wire:click="delete({{ $query->id }})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
+                            Удалить
+                        </button>
+                    </div>
                 </td>
             </tr>
         @endforeach

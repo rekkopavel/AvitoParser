@@ -7,24 +7,24 @@ use Livewire\Component;
 
 class QueryManager extends Component
 {
-    public $queries; // Список запросов
-    public $title, $uri, $city, $status, $queryId; // Для редактирования
+    public $queries;
+    public $title, $uri, $city, $status, $queryId;
     public $creating = false, $editing = false;
 
-    // Метод загрузки всех запросов
+
     public function mount()
     {
         $this->queries = Query::all();
     }
 
-    // Метод для создания нового запроса
+
     public function create()
     {
         $this->resetForm();
         $this->creating = true;
     }
 
-    // Метод для редактирования запроса
+
     public function edit($id)
     {
         $query = Query::find($id);
@@ -36,7 +36,7 @@ class QueryManager extends Component
         $this->editing = true;
     }
 
-    // Метод для сохранения нового или обновленного запроса
+
     public function store()
     {
         $this->validate([
@@ -54,12 +54,13 @@ class QueryManager extends Component
         ]);
 
         $this->resetForm();
-        $this->queries = Query::all(); // Обновляем список запросов
+        $this->queries = Query::all();
     }
 
-    // Метод для обновления существующего запроса
+
     public function update()
     {
+
         $this->validate([
             'title' => 'required|string|max:255',
             'uri' => 'required|url',
@@ -68,6 +69,8 @@ class QueryManager extends Component
         ]);
 
         $query = Query::find($this->queryId);
+
+
         $query->update([
             'title' => $this->title,
             'uri' => $this->uri,
@@ -75,11 +78,12 @@ class QueryManager extends Component
             'status' => $this->status,
         ]);
 
+
         $this->resetForm();
-        $this->queries = Query::all(); // Обновляем список запросов
+        $this->queries = Query::all();
     }
 
-    // Метод для удаления запроса
+
     public function delete($id)
     {
         $query = Query::find($id);
@@ -87,10 +91,10 @@ class QueryManager extends Component
             $query->delete();
         }
 
-        $this->queries = Query::all(); // Обновляем список запросов после удаления
+        $this->queries = Query::all();
     }
 
-    // Метод для сброса формы
+
     private function resetForm()
     {
         $this->title = '';

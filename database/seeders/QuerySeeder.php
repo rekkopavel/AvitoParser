@@ -34,10 +34,10 @@ class QuerySeeder extends Seeder
             ],
         ];
 
-        // Удаляем существующие записи, чтобы избежать дублирования
+
         DB::table('queries')->truncate();
 
-        // Вставляем новые записи
+
         DB::table('queries')->insert($queries);
     }
 }
