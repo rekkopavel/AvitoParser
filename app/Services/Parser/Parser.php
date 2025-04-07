@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace App\Services\Parser;
 
 use App\Events\NewProductsFound;
-use App\Services\Parser\DataBaseManagers\productManager;
-use App\Services\Parser\HtmlServices\productExtractor;
-use App\Services\Parser\Repositories\queryRepository;
+use App\Services\Parser\DataBaseManagers\ProductManager;
+use App\Services\Parser\HtmlServices\ProductExtractor;
+use App\Services\Parser\Repositories\QueryRepository;
 
 class Parser
 {

@@ -6,9 +6,11 @@ use App\Models\Product;
 use App\Models\Subscriber;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ParserCommandTest extends TestCase
 {
+    use RefreshDatabase;
 
     public function test_it_runs_parser_command_successfully()
     {
@@ -24,14 +26,14 @@ class ParserCommandTest extends TestCase
             ->assertExitCode(0);
 
 
-        $this->assertDatabaseCount('links', 1);
+        $this->assertDatabaseCount('products', 1);
 
 
-        $link = Product::first();
+        $product = Product::first();
 
 
-        $this->assertNotEmpty($link->url);
-        $this->assertNotEmpty($link->title);
+        $this->assertNotEmpty($product->url);
+        $this->assertNotEmpty($product->title);
 
         $subscriber = Subscriber::first();
 

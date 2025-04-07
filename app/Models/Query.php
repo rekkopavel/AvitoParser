@@ -10,5 +10,6 @@ class Query extends Model
         'title',
         'city',
         'uri',
+        'status',
     ];
 }
