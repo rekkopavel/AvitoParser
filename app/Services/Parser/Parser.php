@@ -28,18 +28,19 @@ class Parser
             $queriesArray = $this->queryRepository->findAllQueries();
             $productsLinksArray = $this->productExtractor->getAllProductsLinks($queriesArray);
             $productsNumber = $this->productManager->save($productsLinksArray);
-             $this->logService->success('Parser::class->runParsing() - getting products');
+            $this->logService->success("Parser::class->runParsing() - getting '{$productsNumber}' products");
         } catch (\Throwable $e) {
             throw  ParserException::ProductsGettingExceptionHasBeenThrown($e);
         }
 
         try {
-        if ($productsNumber > 0) {
-            event(new NewProductsFound($productsLinksArray));
-        }
-            $this->logService->success('Parser::class->runParsing() - notification users');
+            if ($productsNumber > 0) {
+                event(new NewProductsFound($productsLinksArray));
+                $this->logService->success('Parser::class->runParsing() - notification users');
+            }
+
         } catch (\Throwable $e) {
-            throw  ParserException::ProductsGettingExceptionHasBeenThrown($e);
+            throw  ParserException::NotificationExceptionHasBeenThrown($e);
         }
         return $productsNumber;
     }

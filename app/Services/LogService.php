@@ -9,7 +9,11 @@ class LogService
 {
     const SUCCESS_MESSAGE = 'Successfully!';
 
+    public function info(string $message): void
+    {
+        Log::info($message);
 
+    }
     public function emergency(string $message): void
     {
         Log::emergency($message);

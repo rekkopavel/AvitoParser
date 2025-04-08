@@ -18,7 +18,7 @@ class ParserException extends AppMainException
     }
     public static function NotificationExceptionHasBeenThrown(\Throwable $e): self
     {
-        $message = 'ProductsGettingException has been thrown, extra info - '. $e->getMessage();
+        $message = 'NotificationException has been thrown, extra info - '. $e->getMessage();
         return new self($message);
     }
 

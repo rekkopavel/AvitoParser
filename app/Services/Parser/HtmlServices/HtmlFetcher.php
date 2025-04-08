@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Services\Parser\HtmlServices;
 
@@ -34,7 +35,7 @@ class HtmlFetcher
     private function killChrome(): void
     {
         $process = Process::fromShellCommandline(self::Kill_CHROME_COMMAND);
-
+        $process->setTimeout(60);
         $process->run();
 
         if (!$process->isSuccessful()) {
