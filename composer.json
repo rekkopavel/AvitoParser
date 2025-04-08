@@ -1,12 +1,8 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/livewire-starter-kit",
+    "name": "AvitoParser",
     "type": "project",
-    "description": "The official Laravel starter kit for Livewire.",
-    "keywords": [
-        "laravel",
-        "framework"
-    ],
+    "description": "Parser Avito products with notification",
     "license": "MIT",
     "require": {
         "php": "^8.2",

@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Run');
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('parser:run')->everyTenMinutes();
