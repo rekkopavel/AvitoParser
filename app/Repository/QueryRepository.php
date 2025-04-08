@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Parser\Repositories;
+namespace App\Repository;
 
 use App\Models\Query;
 

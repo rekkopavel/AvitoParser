@@ -6,7 +6,7 @@ namespace App\Services\Parser;
 use App\Events\NewProductsFound;
 use App\Services\Parser\DataBaseManagers\ProductManager;
 use App\Services\Parser\HtmlServices\ProductExtractor;
-use App\Services\Parser\Repositories\QueryRepository;
+use App\Repository\QueryRepository;
 
 class Parser
 {

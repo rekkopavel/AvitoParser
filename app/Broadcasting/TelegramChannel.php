@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Broadcasting;
 
@@ -8,6 +9,8 @@ use Illuminate\Support\Facades\Log;
 
 class TelegramChannel
 {
+    private const TELEGRAM_API_BASE_URL = "https://api.telegram.org/bot";
+
     protected Client $client;
 
     public function __construct()
@@ -20,7 +23,7 @@ class TelegramChannel
         $message = $notification->toTelegram($notifiable);
 
         try {
-            $response = $this->client->post("https://api.telegram.org/bot".config('parser.bot_token')."/sendMessage", [
+            $response = $this->client->post(self::TELEGRAM_API_BASE_URL.config('parser.bot_token')."/sendMessage", [
                 'form_params' => [
                     'chat_id' => $notifiable->telegram_id,
                     'parse_mode' => $message['parse_mode'] ?? 'HTML',
