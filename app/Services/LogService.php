@@ -15,9 +15,9 @@ class LogService
         Log::emergency($message);
 
     }
-    public function success(string $className): void
+    public function success(string $sourceMessage): void
     {
-        Log::info($className . ' logs: '. self::SUCCESS_MESSAGE);
+        Log::info($sourceMessage . self::SUCCESS_MESSAGE);
 
     }
 }
