@@ -18,14 +18,15 @@ class ProductExtractor
         foreach ($queries as $query) {
             try {
                 $page = $this->htmlFetcher->getPageHtml($query);
+
             } catch (\Throwable $e){
-                $this->logService->info("Html for query {$query['title']} has not got..skip and next");
+                $this->logService->info("Html for query {$query['title']} has not got..skip and continue - extra info: ".$e->getFile().$e->getMessage());
             }
 
             try {
             $products = $this->htmlParser->getAllProductLinks($page);
             } catch (\Throwable $e){
-                $this->logService->info("Products for query {$query['title']} has not got..skip and next");
+                $this->logService->info("Products for query {$query['title']} has not got..skip and continue - extra info: ".$e->getFile().$e->getMessage());
             }
 
             $allProducts = [...$allProducts, ...$products];

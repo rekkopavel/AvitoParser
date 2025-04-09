@@ -6,7 +6,7 @@ namespace App\Services\Parser;
 use App\Events\NewProductsFound;
 use App\Exceptions\ParserException;
 use App\Services\LogService;
-use App\Services\Parser\DataBaseManagers\ProductManager;
+use App\DataBaseManagers\ProductManager;
 use App\Services\Parser\HtmlServices\ProductExtractor;
 use App\Repository\QueryRepository;
 
@@ -26,6 +26,7 @@ class Parser
     {
         try {
             $queriesArray = $this->queryRepository->findAllQueries();
+            //$this->logService->emergency(print_r($queriesArray, true) );
             $productsLinksArray = $this->productExtractor->getAllProductsLinks($queriesArray);
             $productsNumber = $this->productManager->save($productsLinksArray);
             $this->logService->success("Parser::class->runParsing() - getting '{$productsNumber}' products");

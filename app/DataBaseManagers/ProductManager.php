@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Parser\DataBaseManagers;
+namespace App\DataBaseManagers;
 
 use App\Models\Product;
 
