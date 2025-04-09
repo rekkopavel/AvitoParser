@@ -22,8 +22,8 @@ class HtmlFetcher
 
         $process = new Process([
             'node',
-            base_path('node-services/parser/parser.js'),
-            '--url=' . $query['uri']
+            base_path('node-services/parser/index.js'),
+            '--url='. $query['uri']
         ]);
         //$process->setTimeout(60);
         $process->run();
@@ -33,9 +33,9 @@ class HtmlFetcher
         }
 
         $html = $process->getOutput();
-        $err = $process->getErrorOutput();
-        $this->logService->info('!!!!'.$html.$err.$query['uri']);
-        $error = $process->getErrorOutput();
+        //$err = $process->getErrorOutput();
+       // $this->logService->info($html);
+        //$error = $process->getErrorOutput();
 
         return $html;
 
