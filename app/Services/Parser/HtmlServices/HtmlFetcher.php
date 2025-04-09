@@ -18,11 +18,11 @@ class HtmlFetcher
 
     public function getPageHtml(array $query): string
     {
-        $this->killChrome();
+       // $this->killChrome();
 
         $process = new Process([
             'node',
-            base_path('node-services/parser/index.js'),
+            base_path('node-services/parser/parser.js'),
             '--url=' . $query['uri']
         ]);
         //$process->setTimeout(60);
