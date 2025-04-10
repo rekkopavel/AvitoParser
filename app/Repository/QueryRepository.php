@@ -6,9 +6,9 @@ use App\Models\Query;
 
 class QueryRepository
 {
-    public function findAllQueries():array
+    public function findAllActiveQueries():array
     {
-        return Query::all()->toArray();
+        return Query::where('active', true)->get()->toArray();
     }
 
 }

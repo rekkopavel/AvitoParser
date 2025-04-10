@@ -25,7 +25,7 @@ class Parser
     public function runParsing(): ?int
     {
         try {
-            $queriesArray = $this->queryRepository->findAllQueries();
+            $queriesArray = $this->queryRepository->findAllActiveQueries();
             //$this->logService->emergency(print_r($queriesArray, true) );
             $productsLinksArray = $this->productExtractor->getAllProductsLinks($queriesArray);
             $productsNumber = $this->productManager->save($productsLinksArray);

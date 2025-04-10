@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title',100)->default('no title');
             $table->string('city',100)->default('no city');
             $table->string('uri',1000);
-            $table->boolean('status')->default(false);
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }
