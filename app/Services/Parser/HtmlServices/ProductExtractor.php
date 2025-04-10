@@ -24,6 +24,7 @@ class ProductExtractor
             }
 
             try {
+                $this->logService->info("Products for query {$query['uri']}  " );
                 $products = $this->htmlParser->getProductsFromPage($page);
                 foreach ($products as &$product) {
                     $product['city'] = $query['city'];
