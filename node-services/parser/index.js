@@ -7,7 +7,6 @@ const puppeteer = require('puppeteer');
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
-            // '--single-process', // Убрали из-за ошибки V8 Proxy
 
         ],
         dumpio: true

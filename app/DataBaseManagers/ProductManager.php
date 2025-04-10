@@ -1,31 +1,36 @@
 <?php
+declare(strict_types=1);
 
 namespace App\DataBaseManagers;
 
 use App\Models\Product;
+use App\Services\LogService;
+
 
 class ProductManager
 {
-    public function save(array $links): int
+    public function __construct(
+        private LogService $logService
+    )
+    {
+    }
+
+    public function save(array $productsArray): int
     {
         $savedCount = 0;
 
-        foreach ($links as $link) {
+        foreach ($productsArray as $product) {
 
 
-            try {
-                Product::create([
-                    'title' => $link['title'],
-                    'city' => $link['city'] ?? null,
-                    'uri' => $link['uri'],
+            Product::create([
+                'title' => $product['title'],
+                'city' => $product['city'] ?? null,
+                'uri' => $product['uri'],
 
-                ]);
+            ]);
 
-                $savedCount++;
-            } catch (\Exception $e) {
-                // Пропускаем ошибки (дубликаты и пр.)
-                continue;
-            }
+            $savedCount++;
+
         }
 
         return $savedCount;

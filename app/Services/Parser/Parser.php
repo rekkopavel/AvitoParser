@@ -27,7 +27,6 @@ class Parser
         try {
             $queriesArray = $this->queryRepository->findAllActiveQueries();
             $productsArray = $this->productExtractor->getAllProducts($queriesArray);
-            //$this->logService->emergency(print_r($queriesArray, true) );
             $productsNumber = $this->productManager->save($productsArray);
             $this->logService->success("Parser::class->runParsing() - getting '{$productsNumber}' products ");
         } catch (\Throwable $e) {
@@ -36,8 +35,8 @@ class Parser
 
         try {
             if ($productsNumber > 0) {
-                event(new NewProductsFound($productsLinksArray));
-                $this->logService->success('Parser::class->runParsing() - notification users');
+                event(new NewProductsFound($productsArray));
+                $this->logService->success('Parser::class->runParsing() - notification users event made ');
             }
 
         } catch (\Throwable $e) {
