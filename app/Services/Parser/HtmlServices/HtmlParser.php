@@ -1,5 +1,5 @@
 <?php
-//declare(strict_types=1);
+declare(strict_types=1);
 
 namespace App\Services\Parser\HtmlServices;
 
@@ -18,11 +18,10 @@ class HtmlParser
     public function __construct(private LogService $logService)
     {
     }
+
     public function getProductsFromPage(string $html): array
     {
-
-        $doc = new DOMDocument('1.0', 'UTF-8');
-        @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+        $doc = $this->createDomDocument($html);
         $xpath = new DOMXPath($doc);
 
         $allProductNodes= $xpath->query(Self::ALL_PRODUCTS_XPATH_EXP);
@@ -43,9 +42,9 @@ class HtmlParser
 
         $productsArray = [];
         foreach ($newProductDivs as $div) {
-            $doc = new DOMDocument('1.0', 'UTF-8');
-            @$doc->loadHTML(mb_convert_encoding($div, 'HTML-ENTITIES', 'UTF-8'));
+            $doc = $this->createDomDocument($div);
             $xpath = new DOMXPath($doc);
+
 
             $linkNode = $xpath->query(Self::LINK_AND_TITLE_XPATH_EXP)->item(0);
 
@@ -63,4 +62,10 @@ class HtmlParser
         return $productsArray;
     }
 
+    private function createDomDocument(string $html): DOMDocument
+    {
+        $doc = new DOMDocument('1.0', 'UTF-8');
+        @$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+        return $doc;
+    }
 }
