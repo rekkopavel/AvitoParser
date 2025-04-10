@@ -26,10 +26,10 @@ class Parser
     {
         try {
             $queriesArray = $this->queryRepository->findAllActiveQueries();
+            $productsArray = $this->productExtractor->getAllProducts($queriesArray);
             //$this->logService->emergency(print_r($queriesArray, true) );
-            $productsLinksArray = $this->productExtractor->getAllProductsLinks($queriesArray);
-            $productsNumber = $this->productManager->save($productsLinksArray);
-            $this->logService->success("Parser::class->runParsing() - getting '{$productsNumber}' products");
+            $productsNumber = $this->productManager->save($productsArray);
+            $this->logService->success("Parser::class->runParsing() - getting '{$productsNumber}' products ");
         } catch (\Throwable $e) {
             throw  ParserException::ProductsGettingExceptionHasBeenThrown($e);
         }

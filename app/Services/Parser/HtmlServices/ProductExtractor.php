@@ -7,11 +7,11 @@ use App\Services\LogService;
 
 class ProductExtractor
 {
-    public function __construct(private HtmlFetcher $htmlFetcher, private HtmlParser $htmlParser,private LogService $logService)
+    public function __construct(private HtmlFetcher $htmlFetcher, private HtmlParser $htmlParser, private LogService $logService)
     {
     }
 
-    public function getAllProductsLInks(array $queries): array
+    public function getAllProducts(array $queries): array
     {
 
         $allProducts = [];
@@ -19,14 +19,18 @@ class ProductExtractor
             try {
                 $page = $this->htmlFetcher->getPageHtml($query);
 
-            } catch (\Throwable $e){
-                $this->logService->info("Html for query {$query['title']} has not got..skip and continue - extra info: ".$e->getFile().$e->getMessage());
+            } catch (\Throwable $e) {
+                $this->logService->info("Html for query {$query['title']} has not got..skip and continue - extra info: " . $e->getFile() . $e->getMessage());
             }
 
             try {
-            $products = $this->htmlParser->getAllProductLinks($page);
-            } catch (\Throwable $e){
-                $this->logService->info("Products for query {$query['title']} has not got..skip and continue - extra info: ".$e->getFile().$e->getMessage());
+                $products = $this->htmlParser->getProductsFromPage($page);
+                foreach ($products as &$product) {
+                    $product['city'] = $query['city'];
+                }
+                unset($product); // чтобы избежать багов с ссылкой
+            } catch (\Throwable $e) {
+                $this->logService->info("Products for query {$query['title']} has not got..skip and continue - extra info: " . $e->getFile() . $e->getMessage());
             }
 
             $allProducts = [...$allProducts, ...$products];

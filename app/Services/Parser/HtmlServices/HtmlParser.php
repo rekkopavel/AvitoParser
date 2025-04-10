@@ -4,37 +4,62 @@
 namespace App\Services\Parser\HtmlServices;
 
 use App\Services\LogService;
+use DOMDocument;
+use DOMXPath;
 
 class HtmlParser
 {
+    private const NEW_PRODUCTS_REG_EXP = '/(>\d минут((ы )|( )|(у ))назад<)/';
+    private const ALL_PRODUCTS_XPATH_EXP = '//div[@data-marker="item"]';
+    private const LINKS_XPATH_EXP = '//a[@data-marker="item-title"]';
 
-    private const QUANTITY_NEW_PRODUCTS_REG_EXP = '/(>\d минут((ы )|( )|(у ))назад<)/';
-    private const LINK_NEW_PRODUCT_REG_EXP = '/<a\s[^>]*data-marker="item-title"[^>]*title="([^"]*)"[^>]*href="([^"]*)"[^>]*>/';
     public function __construct(private LogService $logService)
     {
     }
-    public function getAllProductLinks(string $html): array
+    public function getProductsFromPage(string $html): array
     {
-        $quantityProducts = preg_match_all(Self::QUANTITY_NEW_PRODUCTS_REG_EXP, $html, $matches, PREG_PATTERN_ORDER);
-       // $this->logService->info('!!!!!!'.$quantityProducts);
-        if ($quantityProducts === false|| 0) {
-            return [];
-        }
-        $quantityLinks = preg_match_all(Self::LINK_NEW_PRODUCT_REG_EXP, $html, $matches, PREG_SET_ORDER);
-        $this->logService->info('!!!!!!'.json_encode($matches));
+        $dom = new DOMDocument();
+        libxml_use_internal_errors(true); // подавить ошибки некорректного html
+        $dom->loadHTML($html);
 
-        if ($quantityLinks === false|| 0) {
-            return [];
-        }
-        $links = array_map(function ($match) {
-            return [
-                'city' => 'test',
-                'title' => trim($match['title']),
-                'uri' => trim($match['uri'])
-            ];
-        }, $matches);
+        $xpath = new DOMXPath($dom);
 
-        return $links;
+        $allProductNodes= $xpath->query(Self::ALL_PRODUCTS_XPATH_EXP);
+
+        $allProductDives = [];
+        foreach ($allProductNodes as $productNode) {
+            $allProductDives[] = $dom->saveHTML($productNode);
+        }
+        $this->logService->info('!!!!!!'.json_encode($allProductDives));
+        $newProductDives= array_filter($allProductDives, function ($html) {
+            return preg_match(Self::NEW_PRODUCTS_REG_EXP, $html);
+        });
+
+        $newProductDives = array_values($newProductDives); // сбросить ключи
+
+
+
+        $productsArray = [];
+
+        foreach ($newProductDives as $div) {
+            $doc = new DOMDocument();
+            @$doc->loadHTML($div);
+
+            $xpath = new DOMXPath($doc);
+            $linkNode = $xpath->query(Self::LINKS_XPATH_EXP)->item(0);
+
+            if ($linkNode) {
+                $url = $linkNode->getAttribute('href');
+                $title = $linkNode->getAttribute('title');
+
+                $productsArray[] = [
+                    'url' => $url,
+                    'title' => $title,
+                ];
+            }
+        }
+
+        return $productsArray;
     }
 
 }
