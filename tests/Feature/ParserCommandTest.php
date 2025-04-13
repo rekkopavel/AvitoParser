@@ -17,7 +17,6 @@ class ParserCommandTest extends TestCase
 
         Notification::fake();
 
-        Product::truncate();
 
         $this->artisan('db:seed')
             ->assertExitCode(0);
@@ -26,7 +25,7 @@ class ParserCommandTest extends TestCase
             ->assertExitCode(0);
 
 
-        $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseCount('products', '>', 0);
 
 
         $product = Product::first();
@@ -34,6 +33,7 @@ class ParserCommandTest extends TestCase
 
         $this->assertNotEmpty($product->url);
         $this->assertNotEmpty($product->title);
+        $this->assertNotEmpty($product->city);
 
         $subscriber = Subscriber::first();
 

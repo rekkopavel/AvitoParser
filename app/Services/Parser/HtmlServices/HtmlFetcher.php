@@ -23,7 +23,7 @@ class HtmlFetcher
         $process = new Process([
             'node',
             base_path('node-services/parser/index.js'),
-            '--url='. $query['uri']
+            '--url=' . $query['uri']
         ]);
         $process->run();
 
@@ -31,9 +31,8 @@ class HtmlFetcher
             throw new ProcessFailedException($process);
         }
 
-        $html = $process->getOutput();
+        return $process->getOutput();
 
-        return $html;
 
     }
 
@@ -49,7 +48,7 @@ class HtmlFetcher
 
             }
         } catch (\Throwable $e) {
-            $this->logService->info("Attempt to kill chrome is unsuccessful  it is not working");
+            $this->logService->info("Attempt to kill chrome is unsuccessful or it is not working");
         }
     }
 }

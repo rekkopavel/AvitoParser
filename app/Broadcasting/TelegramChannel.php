@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Broadcasting;
 
+use App\Services\LogService;
 use GuzzleHttp\Client;
 use Illuminate\Notifications\Notification;
 
@@ -13,7 +14,7 @@ class TelegramChannel
 
     protected Client $client;
 
-    public function __construct()
+    public function __construct(private LogService $logService)
     {
         $this->client = new Client();
     }
@@ -21,7 +22,7 @@ class TelegramChannel
     public function send($notifiable, Notification $notification)
     {
         $message = $notification->toTelegram($notifiable);
-
+$this->logService->info(print_r($notification,true));
         try {
             $response = $this->client->post(self::TELEGRAM_API_BASE_URL . config('parser.bot_token') . "/sendMessage", [
                 'form_params' => [

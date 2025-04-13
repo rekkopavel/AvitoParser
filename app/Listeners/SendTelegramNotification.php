@@ -14,6 +14,6 @@ class SendTelegramNotification
 
     public function handle(NewProductsfound $event): void
     {
-        Notification::send(Subscriber::all(), new ProductsFound($event->productsLinks));
+        Notification::send(Subscriber::all(), new ProductsFound($event->products));
     }
 }

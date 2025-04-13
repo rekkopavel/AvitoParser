@@ -9,16 +9,17 @@ use App\Services\Parser\Parser;
 
 class ParserException extends AppMainException
 {
-    CONST SOURCE_CLASS_NAME = Parser::class;
+    const SOURCE_CLASS_NAME = Parser::class;
 
     public static function ProductsGettingExceptionHasBeenThrown(\Throwable $e): self
     {
-        $message = 'ProductsGettingException has been thrown, extra info - '. $e->getMessage();
+        $message = 'ProductsGettingException has been thrown, extra info - ' . $e->getFile() . ' Line: '. $e->getLine()  . ' '. $e->getMessage();
         return new self($message);
     }
+
     public static function NotificationExceptionHasBeenThrown(\Throwable $e): self
     {
-        $message = 'NotificationException has been thrown, extra info - '. $e->getMessage();
+        $message = 'NotificationException has been thrown, extra info - ' . $e->getFile() . ' Line: '.  $e->getLine() . ' '.  $e->getMessage();
         return new self($message);
     }
 

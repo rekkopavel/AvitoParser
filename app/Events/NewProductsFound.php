@@ -11,7 +11,7 @@ class NewProductsFound
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(readonly public array $productsLinks)
+    public function __construct(readonly public array $products)
     {
 
     }

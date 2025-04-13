@@ -10,7 +10,7 @@ use App\DataBaseManagers\ProductManager;
 use App\Services\Parser\HtmlServices\ProductExtractor;
 use App\Repository\QueryRepository;
 
-class Parser
+readonly class Parser
 {
 
 
@@ -22,13 +22,13 @@ class Parser
     {
     }
 
-    public function runParsing(): ?int
+    public function runParsing(): void
     {
         try {
             $queriesArray = $this->queryRepository->findAllActiveQueries();
             $productsArray = $this->productExtractor->getAllProducts($queriesArray);
             $productsNumber = $this->productManager->save($productsArray);
-            $this->logService->success("Parser::class->runParsing() - getting '{$productsNumber}' products ");
+            $this->logService->success("Parser::class->runParsing() - '{$productsNumber}' products has gotten ");
         } catch (\Throwable $e) {
             throw  ParserException::ProductsGettingExceptionHasBeenThrown($e);
         }
@@ -36,12 +36,12 @@ class Parser
         try {
             if ($productsNumber > 0) {
                 event(new NewProductsFound($productsArray));
-                $this->logService->success('Parser::class->runParsing() - notification users event made ');
+                $this->logService->success('Parser::class->runParsing() - notification users event created');
             }
 
         } catch (\Throwable $e) {
             throw  ParserException::NotificationExceptionHasBeenThrown($e);
         }
-        return $productsNumber;
+
     }
 }

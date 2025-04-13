@@ -5,9 +5,14 @@ namespace App\Services\Parser\HtmlServices;
 
 use App\Services\LogService;
 
-class ProductExtractor
+readonly class  ProductExtractor
 {
-    public function __construct(private HtmlFetcher $htmlFetcher, private HtmlParser $htmlParser, private LogService $logService)
+    public function __construct
+    (
+        private HtmlFetcher $htmlFetcher,
+        private HtmlParser  $htmlParser,
+        private LogService  $logService
+    )
     {
     }
 
@@ -16,27 +21,33 @@ class ProductExtractor
 
         $allProducts = [];
         foreach ($queries as $query) {
-            try {
-                $page = $this->htmlFetcher->getPageHtml($query);
 
-            } catch (\Throwable $e) {
-                $this->logService->info("Html for query {$query['title']} has not got..skip and continue - extra info: " . $e->getFile() . $e->getLine() . $e->getMessage());
+            $this->logService->info("Getting PageHtml for Query: {$query['title']}..");
+            $page = $this->htmlFetcher->getPageHtml($query);
+            if ($page === '') {
+                $this->logService->warning("Html for Query: {{$query['title']} is empty, skip and continue}");
+                continue;
             }
 
-            try {
-                $this->logService->info("Products for query {$query['uri']}  " );
-                $products = $this->htmlParser->getProductsFromPage($page);
-                foreach ($products as &$product) {
-                    $product['city'] = $query['city'];
-                }
-                unset($product); // чтобы избежать багов с ссылкой
-
-            } catch (\Throwable $e) {
-                $this->logService->info("Products for query {$query['title']} has not got..skip and continue - extra info: " . $e->getFile() . $e->getLine() . $e->getMessage());
+            $this->logService->info("Getting Products for Query: {$query['title']}..");
+            $products = $this->htmlParser->getProductsFromPage($page);
+            if ($products === []) {
+                $this->logService->warning("Products array for Query: {{$query['title']} is empty, skip and continue}");
+                continue;
             }
+
+            foreach ($products as &$product) {
+                $product['city'] = $query['city'];
+            }
+            unset($product); // чтобы избежать багов с ссылкой
+
 
             $allProducts = [...$allProducts, ...$products];
 
+        }
+
+        if ($allProducts === []) {
+            throw new \Exception('Products for all  Queries is empty');
         }
 
         return $allProducts;

@@ -4,16 +4,9 @@ declare(strict_types=1);
 namespace App\DataBaseManagers;
 
 use App\Models\Product;
-use App\Services\LogService;
 
-
-class ProductManager
+readonly class ProductManager
 {
-    public function __construct(
-        private LogService $logService
-    )
-    {
-    }
 
     public function save(array $productsArray): int
     {
