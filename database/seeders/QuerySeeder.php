@@ -20,6 +20,7 @@ class QuerySeeder extends Seeder
 
                 'title' => 'Поиск по всем ноутам',
                 'city' => 'Орел',
+                'active' => true,
                 'uri' => 'https://www.avito.ru/orlovskaya_oblast/noutbuki?f=ASgCAQECAUDwvA0UiNI0AUXGmgwYeyJmcm9tIjo3MDAwLCJ0byI6MjAwMDB9&s=104',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -28,6 +29,7 @@ class QuerySeeder extends Seeder
 
                 'title' => 'Поиск по всем ноутам',
                 'city' => 'Брянск',
+                'active' => true,
                 'uri' => 'https://www.avito.ru/bryanskaya_oblast/noutbuki?f=ASgCAQECAUDwvA0UiNI0AUXGmgwYeyJmcm9tIjo3MDAwLCJ0byI6MjAwMDB9&s=104',
                 'created_at' => now(),
                 'updated_at' => now(),

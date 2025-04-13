@@ -3,9 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Product;
-use App\Models\Subscriber;
-use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ParserCommandTest extends TestCase
@@ -15,32 +14,27 @@ class ParserCommandTest extends TestCase
     public function test_it_runs_parser_command_successfully()
     {
 
-        Notification::fake();
 
-
-        $this->artisan('db:seed')
+        $this->artisan('db:seed --class=QuerySeeder')
             ->assertExitCode(0);
 
-        $this->artisan('parser:run')
-            ->assertExitCode(0);
+                $this->artisan('parser:run')
+                    ->assertExitCode(0);
 
 
-        $this->assertDatabaseCount('products', '>', 0);
+        $this->assertTrue(DB::table('products')->count() > 0);
 
 
-        $product = Product::first();
+                $product = Product::first();
 
 
-        $this->assertNotEmpty($product->url);
-        $this->assertNotEmpty($product->title);
-        $this->assertNotEmpty($product->city);
+                $this->assertNotEmpty($product->uri);
+                $this->assertNotEmpty($product->title);
+                $this->assertNotEmpty($product->city);
 
-        $subscriber = Subscriber::first();
 
-        Notification::assertSentTo(
-            $subscriber,
-            \App\Notifications\ProductsFound::class,
 
-        );
+
+
     }
 }

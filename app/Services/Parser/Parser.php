@@ -36,7 +36,7 @@ readonly class Parser
         try {
             if ($productsNumber > 0) {
                 event(new NewProductsFound($productsArray));
-                $this->logService->success('Parser::class->runParsing() - notification users event created');
+                $this->logService->success('Parser::class->runParsing() - notification users event created ');
             }
 
         } catch (\Throwable $e) {
