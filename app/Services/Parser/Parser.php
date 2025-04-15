@@ -28,7 +28,7 @@ readonly class Parser
             $queriesArray = $this->queryRepository->findAllActiveQueries();
             $productsArray = $this->productExtractor->getAllProducts($queriesArray);
             $productsNumber = $this->productManager->save($productsArray);
-            $this->logService->success("Parser::class->runParsing() - '{$productsNumber}' products has gotten ");
+            $this->logService->info("Parser::class->runParsing() - '{$productsNumber}' products has gotten ");
         } catch (\Throwable $e) {
             throw  ParserException::ProductsGettingExceptionHasBeenThrown($e);
         }
@@ -36,7 +36,7 @@ readonly class Parser
         try {
             if ($productsNumber > 0) {
                 event(new NewProductsFound($productsArray));
-                $this->logService->success('Parser::class->runParsing() - notification users event created ');
+                $this->logService->info('Parser::class->runParsing() - notification users event created ');
             }
 
         } catch (\Throwable $e) {

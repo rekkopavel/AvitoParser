@@ -48,7 +48,7 @@ class HtmlFetcher
 
             }
         } catch (\Throwable $e) {
-            $this->logService->info("Attempt to kill chrome is unsuccessful or it is not working");
+            $this->logService->notice("Attempt to kill chrome is unsuccessful or it is not working");
         }
     }
 }

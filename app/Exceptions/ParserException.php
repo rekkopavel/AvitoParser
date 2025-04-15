@@ -9,17 +9,27 @@ use App\Services\Parser\Parser;
 
 class ParserException extends AppMainException
 {
-    const SOURCE_CLASS_NAME = Parser::class;
+    const SOURCE_CLASS_NAME = Parser::class.': ';
 
     public static function ProductsGettingExceptionHasBeenThrown(\Throwable $e): self
     {
-        $message = 'ProductsGettingException has been thrown, extra info - ' . $e->getFile() . ' Line: '. $e->getLine()  . ' '. $e->getMessage();
+        $message = "ProductsGettingException has been thrown ==> {$e->getFile()}:{$e->getLine()} - {$e->getMessage()}";
+        if ($previous = $e->getPrevious()) {
+            $message .= "\nCaused by ==> {$previous->getFile()}:{$previous->getLine()} - {$previous->getMessage()}";
+        }
+
+
         return new self($message);
     }
 
     public static function NotificationExceptionHasBeenThrown(\Throwable $e): self
     {
-        $message = 'NotificationException has been thrown, extra info - ' . $e->getFile() . ' Line: '.  $e->getLine() . ' '.  $e->getMessage();
+        $message = "NotificationException has been thrown ==>: {$e->getFile()}:{$e->getLine()} - {$e->getMessage()}";
+        if ($previous = $e->getPrevious()) {
+            $message .= "\nCaused by ==> {$previous->getFile()}:{$previous->getLine()} - {$previous->getMessage()}";
+        }
+
+
         return new self($message);
     }
 

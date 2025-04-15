@@ -15,10 +15,6 @@ class HtmlParser
     private const AVITO_BASE_URL = 'https://www.avito.ru/';
 
 
-    public function __construct(private LogService $logService)
-    {
-    }
-
     public function getProductsFromPage(string $html): array
     {
 

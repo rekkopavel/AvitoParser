@@ -5,32 +5,60 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Log;
 
+
 class LogService
 {
-    const SUCCESS_MESSAGE = 'Successfully!';
-
-    public function success(string $sourceMessage): void
+    public function emergency(string $message, \Throwable $error = null): void
     {
-        Log::info($sourceMessage . self::SUCCESS_MESSAGE);
+        $errorInfo = $this->getErrorInfo($error);
+        Log::emergency($message . ($errorInfo ? "\n" . $errorInfo : ''));
 
     }
 
-    public function info(string $message): void
+    public function alert(string $message, \Throwable $error = null): void
     {
-        Log::info($message);
+        $errorInfo = $this->getErrorInfo($error);
+        Log::alert($message . ($errorInfo ? "\n" . $errorInfo : ''));
+
+    }
+
+    public function critical(string $message, \Throwable $error = null): void
+    {
+        $errorInfo = $this->getErrorInfo($error);
+        Log::critical($message . ($errorInfo ? "\n" . $errorInfo : ''));
+
+    }
+
+    public function error(string $message, \Throwable $error = null): void
+    {
+        $errorInfo = $this->getErrorInfo($error);
+        Log::error($message . ($errorInfo ? "\n" . $errorInfo : ''));
 
     }
 
     public function warning(string $message): void
     {
-        Log::emergency($message);
-
+        Log::warning($message);
     }
 
-    public function emergency(string $message): void
+    public function notice(string $message): void
     {
-        Log::emergency($message);
+        Log::notice($message);
+    }
 
+    public function info(string $message): void
+    {
+        Log::info($message);
+    }
+
+    public function debug (string $message): void
+    {
+        Log::debug($message);
+    }
+
+    private function getErrorInfo(?\Throwable $e): string
+    {
+        return $e ? "Additional information: {$e->getFile()}:{$e->getLine()} - {$e->getMessage()}" : '';
     }
 
 }
