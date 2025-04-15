@@ -25,14 +25,14 @@ readonly class  ProductExtractor
             $this->logService->info("Getting PageHtml for Query: {$query['title']}..");
             $page = $this->htmlFetcher->getPageHtml($query);
             if ($page === '') {
-                $this->logService->warning("Html for Query: {{$query['title']} is empty, skip and continue}");
+                $this->logService->warning("Html for Query: {$query['title']} is empty, skip and continue");
                 continue;
             }
 
             $this->logService->info("Getting Products for Query: {$query['title']}..");
             $products = $this->htmlParser->getProductsFromPage($page);
             if ($products === []) {
-                $this->logService->warning("Products array for Query: {{$query['title']} is empty, skip and continue}");
+                $this->logService->warning("Products array for Query: {$query['title']} is empty, skip and continue");
                 continue;
             }
 

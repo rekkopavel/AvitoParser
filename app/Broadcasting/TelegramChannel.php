@@ -22,20 +22,20 @@ class TelegramChannel
     public function send($notifiable, Notification $notification)
     {
         $message = $notification->toTelegram($notifiable);
-$this->logService->info(print_r($notification,true));
+
         try {
             $response = $this->client->post(self::TELEGRAM_API_BASE_URL . config('parser.bot_token') . "/sendMessage", [
                 'form_params' => [
                     'chat_id' => $notifiable->telegram_id,
                     'parse_mode' => $message['parse_mode'] ?? 'HTML',
-                    'reply_markup' => $message['buttons'] ?? null,
+                    'text' => $message['text'] ?? 'Что то не так с сообщением',
                 ],
                  'timeout' => 60,
             ]);
 
             return $response->getStatusCode() === 200;
         } catch (\Exception $e) {
-            throw new \Exception('Telegram send failed: ' . $e->getMessage());
+            throw new \Exception('Telegram send failed: ' , 0, $e);
 
 
         }

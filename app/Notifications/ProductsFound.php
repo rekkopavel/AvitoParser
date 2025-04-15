@@ -10,7 +10,7 @@ class ProductsFound extends Notification
 
 
 
-    public function __construct(readonly private array $productsLinks)
+    public function __construct(readonly private array $products)
     {
 
     }
@@ -29,8 +29,8 @@ class ProductsFound extends Notification
 
         $message = "🔔 <b>Новые объявления!</b>\n\n";
         $message .= implode("\n", array_map(
-            fn($item) => "🏙 <b>{$item['city']}</b>: <a href='{$item['link']}'>{$item['title']}</a>",
-            $this->productsLinks
+            fn($item) => "🏙 <b>{$item['city']}</b>: <a href='{$item['uri']}'>{$item['title']}</a>",
+            $this->products
         ));
 
 

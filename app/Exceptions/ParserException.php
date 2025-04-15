@@ -24,7 +24,7 @@ class ParserException extends AppMainException
 
     public static function NotificationExceptionHasBeenThrown(\Throwable $e): self
     {
-        $message = "NotificationException has been thrown ==>: {$e->getFile()}:{$e->getLine()} - {$e->getMessage()}";
+        $message = "NotificationException has been thrown ==> {$e->getFile()}:{$e->getLine()} - {$e->getMessage()}";
         if ($previous = $e->getPrevious()) {
             $message .= "\nCaused by ==> {$previous->getFile()}:{$previous->getLine()} - {$previous->getMessage()}";
         }

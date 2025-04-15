@@ -13,7 +13,6 @@ use App\Repository\QueryRepository;
 readonly class Parser
 {
 
-
     public function __construct(private queryRepository  $queryRepository,
                                 private productExtractor $productExtractor,
                                 private productManager   $productManager,
@@ -25,17 +24,17 @@ readonly class Parser
     public function runParsing(): void
     {
         try {
-            $queriesArray = $this->queryRepository->findAllActiveQueries();
-            $productsArray = $this->productExtractor->getAllProducts($queriesArray);
-            $productsNumber = $this->productManager->save($productsArray);
-            $this->logService->info("Parser::class->runParsing() - '{$productsNumber}' products has gotten ");
+            $queries = $this->queryRepository->findAllActiveQueries();
+            $products = $this->productExtractor->getAllProducts($queries);
+            $productsCount = $this->productManager->save($products);
+            $this->logService->info("Parser::class->runParsing() - '{$productsCount}' products has gotten ");
         } catch (\Throwable $e) {
             throw  ParserException::ProductsGettingExceptionHasBeenThrown($e);
         }
 
         try {
-            if ($productsNumber > 0) {
-                event(new NewProductsFound($productsArray));
+            if ($productsCount > 0) {
+                event(new NewProductsFound($products));
                 $this->logService->info('Parser::class->runParsing() - notification users event created ');
             }
 
