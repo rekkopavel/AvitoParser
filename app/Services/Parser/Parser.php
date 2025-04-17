@@ -24,7 +24,7 @@ readonly class Parser
     public function runParsing(): void
     {
         try {
-            $queries = $this->queryRepository->findAllActiveQueries();
+            $queries = $this->queryRepository->findActiveQueries();
             $products = $this->productExtractor->getAllProducts($queries);
             $productsCount = $this->productManager->save($products);
             $this->logService->info("Parser::class->runParsing() - '{$productsCount}' products has gotten ");

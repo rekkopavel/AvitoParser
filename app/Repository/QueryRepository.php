@@ -4,17 +4,25 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Models\Query;
+use App\Exceptions\EmptyQueriesException;
 
-class QueryRepository
+readonly class QueryRepository
 {
-    public function findAllActiveQueries(): array
+    public function __construct(
+        private readonly Query $queryModel
+    )
     {
-        $output = Query::where('active', true)->get()->toArray();
+    }
 
-        if ($output === []) {
-            throw new \Exception('Table queries is empty');
+
+    public function findActiveQueries(): array
+    {
+        $queries = $this->queryModel::where('active', true)->get()->toArray();
+
+        if ($queries === []) {
+            throw new EmptyQueriesException();
         }
-        return $output;
+        return $queries;
     }
 
 }
