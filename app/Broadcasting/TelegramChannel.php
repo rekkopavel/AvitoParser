@@ -12,14 +12,14 @@ class TelegramChannel
 {
     private const TELEGRAM_API_BASE_URL = "https://api.telegram.org/bot";
 
-    protected Client $client;
 
-    public function __construct(private LogService $logService)
+
+    public function __construct(protected Client $client, private LogService $logService)
     {
-        $this->client = new Client();
+
     }
 
-    public function send($notifiable, Notification $notification)
+    public function send($notifiable, Notification $notification):bool
     {
         $message = $notification->toTelegram($notifiable);
 
@@ -33,8 +33,12 @@ class TelegramChannel
                  'timeout' => 60,
             ]);
 
+            $this->logService->info('Subscriber: '. $notifiable->telegram_id . ' has been notified, telegram api responded: ' . $response->getStatusCode());
+
+
             return $response->getStatusCode() === 200;
         } catch (\Exception $e) {
+
             throw new \Exception('Telegram send failed: ' , 0, $e);
 
 

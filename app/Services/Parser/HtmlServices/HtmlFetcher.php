@@ -25,6 +25,7 @@ class HtmlFetcher
             base_path('node-services/parser/index.js'),
             '--url=' . $query['uri']
         ]);
+        $process->setTimeout(120);
         $process->run();
 
         if (!$process->isSuccessful()) {

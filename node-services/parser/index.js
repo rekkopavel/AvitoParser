@@ -22,7 +22,7 @@ const puppeteer = require('puppeteer');
         console.error('Navigating to page...');
         await page.goto(argv.url, {
             waitUntil: 'networkidle2', // Ждём завершения сетевых запросов
-            timeout: 60000
+            timeout: 120000
         });
 
         // Явное ожидание заголовка

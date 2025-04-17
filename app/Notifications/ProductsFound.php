@@ -8,8 +8,6 @@ use Illuminate\Notifications\Notification;
 class ProductsFound extends Notification
 {
 
-
-
     public function __construct(readonly private array $products)
     {
 
@@ -24,7 +22,6 @@ class ProductsFound extends Notification
 
     public function toTelegram($notifiable): array
     {
-
 
 
         $message = "🔔 <b>Новые объявления!</b>\n\n";
