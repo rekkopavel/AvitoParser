@@ -9,7 +9,7 @@ use App\Exceptions\EmptyQueriesException;
 readonly class QueryRepository
 {
     public function __construct(
-        private readonly Query $queryModel
+        private Query $queryModel
     )
     {
     }
@@ -17,7 +17,10 @@ readonly class QueryRepository
 
     public function findActiveQueries(): array
     {
-        $queries = $this->queryModel::where('active', true)->get()->toArray();
+        $queries = $this->queryModel->newQuery()
+            ->active()
+            ->get()
+            ->toArray();
 
         if ($queries === []) {
             throw new EmptyQueriesException();

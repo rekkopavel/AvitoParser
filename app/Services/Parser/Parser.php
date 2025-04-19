@@ -13,34 +13,44 @@ use App\Repository\QueryRepository;
 readonly class Parser
 {
 
-    public function __construct(private queryRepository  $queryRepository,
-                                private productExtractor $productExtractor,
-                                private productManager   $productManager,
-                                private LogService       $logService
+    public function __construct(
+        private QueryRepository  $queryRepository,
+        private ProductExtractor $productExtractor,
+        private ProductManager   $productManager,
+        private LogService       $logService
     )
     {
     }
 
     public function runParsing(): void
     {
-        try {
-            $queries = $this->queryRepository->findActiveQueries();
-            $products = $this->productExtractor->getAllProducts($queries);
-            $productsCount = $this->productManager->save($products);
-            $this->logService->info("Parser::class->runParsing() - '{$productsCount}' products has gotten ");
-        } catch (\Throwable $e) {
-            throw  ParserException::ProductsGettingExceptionHasBeenThrown($e);
-        }
+
+        $products = [];
+        $productsCount = 0;
 
         try {
-            if ($productsCount > 0) {
-                event(new NewProductsFound($products));
-                $this->logService->info('Subscribers have been notified!');
-            }
-
+            $products = $this->extractAndSaveProducts();
+            $productsCount = count($products);
+            $this->logService->info("Parser::runParsing() - '{$productsCount}' products retrieved and saved.");
         } catch (\Throwable $e) {
-            throw  ParserException::NotificationExceptionHasBeenThrown($e);
+            throw ParserException::ProductsGettingExceptionHasBeenThrown($e);
         }
 
+
+        try {
+            event(new NewProductsFound($products));
+            $this->logService->info('Subscribers have been notified!');
+        } catch (\Throwable $e) {
+            throw ParserException::NotificationExceptionHasBeenThrown($e);
+        }
+
+    }
+
+    private function extractAndSaveProducts(): array
+    {
+        $queries = $this->queryRepository->findActiveQueries();
+        $products = $this->productExtractor->getAllProducts($queries);
+        $this->productManager->save($products);
+        return $products;
     }
 }

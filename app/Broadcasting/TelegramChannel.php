@@ -12,13 +12,22 @@ class TelegramChannel
 {
     private const TELEGRAM_API_BASE_URL = "https://api.telegram.org/bot";
 
-
-
-    public function __construct(protected Client $client, private LogService $logService)
+    public function __construct(
+        protected Client $client,
+        readonly private LogService $logService
+    )
     {
 
     }
 
+    /**
+     * Send notification to Telegram.
+     *
+     * @param  mixed  $notifiable
+     * @param  Notification  $notification
+     * @return bool
+     * @throws Exception
+     */
     public function send($notifiable, Notification $notification):bool
     {
         $message = $notification->toTelegram($notifiable);

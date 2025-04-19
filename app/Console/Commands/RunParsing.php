@@ -22,11 +22,19 @@ class RunParsing extends Command
      */
     protected $description = 'Do parsing and write data  to database';
 
+    public function __construct(
+        private readonly Parser $parser
+    ) {
+        parent::__construct();
+    }
+
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle():int
     {
-        app(Parser::class)->runParsing();
+        $this->parser->runParsing();
+        $this->info('Parsing completed successfully.');
+        return self::SUCCESS;
     }
 }
