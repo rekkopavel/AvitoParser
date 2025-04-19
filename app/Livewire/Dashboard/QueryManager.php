@@ -8,7 +8,7 @@ use Livewire\Component;
 class QueryManager extends Component
 {
     public $queries;
-    public $title, $uri, $city, $status, $queryId;
+    public $title, $uri, $city, $active, $id;
     public $creating = false, $editing = false;
 
 
@@ -31,8 +31,8 @@ class QueryManager extends Component
         $this->title = $query->title;
         $this->uri = $query->uri;
         $this->city = $query->city;
-        $this->status = $query->status;
-        $this->queryId = $query->id;
+        $this->active = $query->active;
+        $this->id = $query->id;
         $this->editing = true;
     }
 
@@ -50,7 +50,7 @@ class QueryManager extends Component
             'title' => $this->title,
             'uri' => $this->uri,
             'city' => $this->city,
-            'status' => $this->status,
+            'status' => $this->active,
         ]);
 
         $this->resetForm();
@@ -65,17 +65,17 @@ class QueryManager extends Component
             'title' => 'required|string|max:255',
             'uri' => 'required|url',
             'city' => 'nullable|string|max:255',
-            'status' => 'required|boolean',
+            'active' => 'required|boolean',
         ]);
 
-        $query = Query::find($this->queryId);
+        $query = Query::find($this->id);
 
 
         $query->update([
             'title' => $this->title,
             'uri' => $this->uri,
             'city' => $this->city,
-            'status' => $this->status,
+            'active' => $this->active,
         ]);
 
 
@@ -100,8 +100,8 @@ class QueryManager extends Component
         $this->title = '';
         $this->uri = '';
         $this->city = '';
-        $this->status = false;
-        $this->queryId = null;
+        $this->active = false;
+        $this->id = null;
         $this->creating = false;
         $this->editing = false;
     }

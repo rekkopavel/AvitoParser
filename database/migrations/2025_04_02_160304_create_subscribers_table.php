@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name',100);
             $table->string('telegram_id', 20);
             $table->string('mail',100);
-
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

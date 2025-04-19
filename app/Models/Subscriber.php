@@ -8,9 +8,15 @@ use Illuminate\Notifications\Notifiable;
 class Subscriber extends Model
 {
     use Notifiable;
+    protected $fillable = [
+        'name',
+        'telegram_id',
+        'mail',
+        'active',
+    ];
 
     public function routeNotificationForTelegram()
     {
-        return $this->telegram_id; // Предполагается, что это поле есть в БД
+        return $this->telegram_id;
     }
 }
