@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Exceptions;
@@ -8,12 +9,12 @@ use Exception;
 
 class AppMainException extends Exception
 {
-    readonly protected LogService $logService;
+    protected readonly LogService $logService;
 
-    public function __construct( string $message = "", int $code = 0, ?\Throwable $previous = null )
+    public function __construct(string $message = '', int $code = 0, ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
 
-        $this->logService = new LogService();
+        $this->logService = new LogService;
     }
 }

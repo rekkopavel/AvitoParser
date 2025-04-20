@@ -1,38 +1,38 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services;
 
 use Illuminate\Support\Facades\Log;
 
-
 class LogService
 {
-    public function emergency(string $message, \Throwable $error = null): void
+    public function emergency(string $message, ?\Throwable $error = null): void
     {
         $errorInfo = $this->getErrorInfo($error);
-        Log::emergency($message . ($errorInfo ? "\n" . $errorInfo : ''));
+        Log::emergency($message.($errorInfo ? "\n".$errorInfo : ''));
 
     }
 
-    public function alert(string $message, \Throwable $error = null): void
+    public function alert(string $message, ?\Throwable $error = null): void
     {
         $errorInfo = $this->getErrorInfo($error);
-        Log::alert($message . ($errorInfo ? "\n" . $errorInfo : ''));
+        Log::alert($message.($errorInfo ? "\n".$errorInfo : ''));
 
     }
 
-    public function critical(string $message, \Throwable $error = null): void
+    public function critical(string $message, ?\Throwable $error = null): void
     {
         $errorInfo = $this->getErrorInfo($error);
-        Log::critical($message . ($errorInfo ? "\n" . $errorInfo : ''));
+        Log::critical($message.($errorInfo ? "\n".$errorInfo : ''));
 
     }
 
-    public function error(string $message, \Throwable $error = null): void
+    public function error(string $message, ?\Throwable $error = null): void
     {
         $errorInfo = $this->getErrorInfo($error);
-        Log::error($message . ($errorInfo ? "\n" . $errorInfo : ''));
+        Log::error($message.($errorInfo ? "\n".$errorInfo : ''));
 
     }
 
@@ -51,7 +51,7 @@ class LogService
         Log::info($message);
     }
 
-    public function debug (string $message): void
+    public function debug(string $message): void
     {
         Log::debug($message);
     }
@@ -60,5 +60,4 @@ class LogService
     {
         return $e ? "Additional information: {$e->getFile()}:{$e->getLine()} - {$e->getMessage()}" : '';
     }
-
 }

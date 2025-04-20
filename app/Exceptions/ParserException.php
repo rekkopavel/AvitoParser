@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Exceptions;
@@ -8,7 +9,7 @@ use Throwable;
 
 class ParserException extends AppMainException
 {
-    private const SOURCE_CLASS_NAME = Parser::class . ': ';
+    private const SOURCE_CLASS_NAME = Parser::class.': ';
 
     public static function ProductsGettingExceptionHasBeenThrown(Throwable $e): self
     {
@@ -23,7 +24,7 @@ class ParserException extends AppMainException
     public function report(): void
     {
 
-            $this->logService->emergency(self::SOURCE_CLASS_NAME . $this->getMessage());
+        $this->logService->emergency(self::SOURCE_CLASS_NAME.$this->getMessage());
 
     }
 
@@ -38,4 +39,3 @@ class ParserException extends AppMainException
         return $message;
     }
 }
-

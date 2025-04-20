@@ -8,22 +8,31 @@ use Livewire\Component;
 class SubscriberManager extends Component
 {
     public $subscribers;
-    public $name, $telegram_id, $mail, $active, $id;
-    public $creating = false, $editing = false;
 
+    public $name;
+
+    public $telegram_id;
+
+    public $mail;
+
+    public $active;
+
+    public $id;
+
+    public $creating = false;
+
+    public $editing = false;
 
     public function mount()
     {
         $this->subscribers = Subscriber::all();
     }
 
-
     public function create()
     {
         $this->resetForm();
         $this->creating = true;
     }
-
 
     public function edit($id)
     {
@@ -35,7 +44,6 @@ class SubscriberManager extends Component
         $this->id = $subscriber->id;
         $this->editing = true;
     }
-
 
     public function store()
     {
@@ -57,7 +65,6 @@ class SubscriberManager extends Component
         $this->subscribers = Subscriber::all();
     }
 
-
     public function update()
     {
 
@@ -71,7 +78,6 @@ class SubscriberManager extends Component
 
         $subscriber = Subscriber::find($this->id);
 
-
         $subscriber->update([
             'name' => $this->name,
             'telegram_id' => $this->telegram_id,
@@ -79,11 +85,9 @@ class SubscriberManager extends Component
             'active' => $this->active,
         ]);
 
-
         $this->resetForm();
         $this->subscribers = Subscriber::all();
     }
-
 
     public function delete($id)
     {
@@ -94,7 +98,6 @@ class SubscriberManager extends Component
 
         $this->subscribers = Subscriber::all();
     }
-
 
     private function resetForm()
     {

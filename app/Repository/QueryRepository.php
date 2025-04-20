@@ -1,19 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Models\Query;
 use App\Exceptions\EmptyQueriesException;
+use App\Models\Query;
 
 readonly class QueryRepository
 {
     public function __construct(
         private Query $queryModel
-    )
-    {
-    }
-
+    ) {}
 
     public function findActiveQueries(): array
     {
@@ -23,9 +21,9 @@ readonly class QueryRepository
             ->toArray();
 
         if ($queries === []) {
-            throw new EmptyQueriesException();
+            throw new EmptyQueriesException;
         }
+
         return $queries;
     }
-
 }

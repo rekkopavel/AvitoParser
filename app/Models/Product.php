@@ -12,9 +12,8 @@ class Product extends Model
         'uri',
         'html',
     ];
+
     protected $casts = [
-        'html' => 'string'
+        'html' => 'string',
     ];
-
-
 }

@@ -8,22 +8,31 @@ use Livewire\Component;
 class QueryManager extends Component
 {
     public $queries;
-    public $title, $uri, $city, $active, $id;
-    public $creating = false, $editing = false;
 
+    public $title;
+
+    public $uri;
+
+    public $city;
+
+    public $active;
+
+    public $id;
+
+    public $creating = false;
+
+    public $editing = false;
 
     public function mount()
     {
         $this->queries = Query::all();
     }
 
-
     public function create()
     {
         $this->resetForm();
         $this->creating = true;
     }
-
 
     public function edit($id)
     {
@@ -35,7 +44,6 @@ class QueryManager extends Component
         $this->id = $query->id;
         $this->editing = true;
     }
-
 
     public function store()
     {
@@ -57,7 +65,6 @@ class QueryManager extends Component
         $this->queries = Query::all();
     }
 
-
     public function update()
     {
 
@@ -70,7 +77,6 @@ class QueryManager extends Component
 
         $query = Query::find($this->id);
 
-
         $query->update([
             'title' => $this->title,
             'uri' => $this->uri,
@@ -78,11 +84,9 @@ class QueryManager extends Component
             'active' => $this->active,
         ]);
 
-
         $this->resetForm();
         $this->queries = Query::all();
     }
-
 
     public function delete($id)
     {
@@ -93,7 +97,6 @@ class QueryManager extends Component
 
         $this->queries = Query::all();
     }
-
 
     private function resetForm()
     {

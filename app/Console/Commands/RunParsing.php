@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace App\Console\Commands;
 
@@ -31,10 +32,11 @@ class RunParsing extends Command
     /**
      * Execute the console command.
      */
-    public function handle():int
+    public function handle(): int
     {
         $this->parser->runParsing();
         $this->info('Parsing completed successfully.');
+
         return self::SUCCESS;
     }
 }

@@ -1,26 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Parser;
 
+use App\DataBaseManagers\ProductManager;
 use App\Events\NewProductsFound;
 use App\Exceptions\ParserException;
-use App\Services\LogService;
-use App\DataBaseManagers\ProductManager;
-use App\Services\Parser\HtmlServices\ProductExtractor;
 use App\Repository\QueryRepository;
+use App\Services\LogService;
+use App\Services\Parser\HtmlServices\ProductExtractor;
 
 readonly class Parser
 {
-
     public function __construct(
-        private QueryRepository  $queryRepository,
+        private QueryRepository $queryRepository,
         private ProductExtractor $productExtractor,
-        private ProductManager   $productManager,
-        private LogService       $logService
-    )
-    {
-    }
+        private ProductManager $productManager,
+        private LogService $logService
+    ) {}
 
     public function runParsing(): void
     {
@@ -36,7 +34,6 @@ readonly class Parser
             throw ParserException::ProductsGettingExceptionHasBeenThrown($e);
         }
 
-
         try {
             event(new NewProductsFound($products));
             $this->logService->info('Subscribers have been notified!');
@@ -51,6 +48,7 @@ readonly class Parser
         $queries = $this->queryRepository->findActiveQueries();
         $products = $this->productExtractor->getAllProducts($queries);
         $this->productManager->save($products);
+
         return $products;
     }
 }

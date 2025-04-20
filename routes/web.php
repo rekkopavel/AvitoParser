@@ -1,10 +1,10 @@
 <?php
 
+use App\Livewire\Dashboard\QueryManager;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Dashboard\QueryManager;
 
 Route::get('/', function () {
     return view('index');
@@ -24,5 +24,3 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-

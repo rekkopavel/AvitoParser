@@ -3,5 +3,5 @@
 return [
     App\Providers\AppServiceProvider::class,
     App\Providers\TelescopeServiceProvider::class,
-    App\Providers\NotificationServiceProvider::class
+    App\Providers\NotificationServiceProvider::class,
 ];

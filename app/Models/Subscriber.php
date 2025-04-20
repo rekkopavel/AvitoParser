@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-
 /**
  * @property string $name
  * @property string $telegram_id
@@ -28,7 +27,7 @@ class Subscriber extends Model
         'active' => 'boolean',
     ];
 
-    public function scopeActive($query):Builder
+    public function scopeActive($query): Builder
     {
         return $query->where('active', true);
     }

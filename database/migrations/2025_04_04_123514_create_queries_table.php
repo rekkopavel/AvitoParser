@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('queries', function (Blueprint $table) {
             $table->id();
-            $table->string('title',100)->default('no title');
-            $table->string('city',100)->default('no city');
-            $table->string('uri',1000);
+            $table->string('title', 100)->default('no title');
+            $table->string('city', 100)->default('no city');
+            $table->string('uri', 1000);
             $table->boolean('active')->default(true);
             $table->timestamps();
         });

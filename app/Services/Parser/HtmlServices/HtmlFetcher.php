@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Parser\HtmlServices;
@@ -9,12 +10,9 @@ use Symfony\Component\Process\Process;
 
 class HtmlFetcher
 {
-
     private const Kill_CHROME_COMMAND_IN_LINUX = 'pkill -f chrome';
 
-    public function __construct(private LogService $logService)
-    {
-    }
+    public function __construct(private LogService $logService) {}
 
     public function getPageHtml(array $query): string
     {
@@ -23,17 +21,16 @@ class HtmlFetcher
         $process = new Process([
             'node',
             base_path('node-services/parser/index.js'),
-            '--url=' . $query['uri']
+            '--url='.$query['uri'],
         ]);
         $process->setTimeout(120);
         $process->run();
 
-        if (!$process->isSuccessful()) {
+        if (! $process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
 
         return $process->getOutput();
-
 
     }
 
@@ -46,10 +43,9 @@ class HtmlFetcher
                 $killProcess = Process::fromShellCommandline(self::Kill_CHROME_COMMAND_IN_LINUX);
                 $killProcess->run();
 
-
             }
         } catch (\Throwable $e) {
-            $this->logService->notice("Attempt to kill chrome is unsuccessful or it is not working");
+            $this->logService->notice('Attempt to kill chrome is unsuccessful or it is not working');
         }
     }
 }

@@ -13,7 +13,7 @@ class NotificationServiceProvider extends ServiceProvider
     {
         $this->app->extend(ChannelManager::class, function ($service, $app) {
             $service->extend('telegram', function ($app) {
-                return new TelegramChannel($app->make(Client::class),$app->make(\App\Services\LogService::class));
+                return new TelegramChannel($app->make(Client::class), $app->make(\App\Services\LogService::class));
             });
 
             return $service;

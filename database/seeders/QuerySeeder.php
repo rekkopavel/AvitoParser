@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -36,9 +35,7 @@ class QuerySeeder extends Seeder
             ],
         ];
 
-
         DB::table('queries')->truncate();
-
 
         DB::table('queries')->insert($queries);
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Parser\HtmlServices;
@@ -24,6 +25,7 @@ readonly class ProductExtractor
 
             if (empty($page)) {
                 $this->logService->warning("Html for Query: {$title} is empty, skipping.");
+
                 continue;
             }
 
@@ -32,6 +34,7 @@ readonly class ProductExtractor
 
             if (empty($products)) {
                 $this->logService->warning("Products array for Query: {$title} is empty, skipping.");
+
                 continue;
             }
 

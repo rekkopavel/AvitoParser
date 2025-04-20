@@ -24,9 +24,8 @@ class Query extends Model
         'active' => 'boolean',
     ];
 
-    public function scopeActive($query):Builder
+    public function scopeActive($query): Builder
     {
         return $query->where('active', true);
     }
-
 }
