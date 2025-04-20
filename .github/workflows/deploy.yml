@@ -1,4 +1,4 @@
-name: deploy
+name: Deploy
 
 on:
   push:
@@ -19,27 +19,65 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
 
+      - name: Debug SSH
+        run: |
+          # Показываем, какие ключи в агенте
+          ssh-add -l
+
+          # Пробуем подключиться к VPS с подробным логом
+          ssh -vvv -o StrictHostKeyChecking=no \
+              ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} \
+              echo "SSH connection OK"
+
+      - name: Copy files to VPS
+        run: |
+          scp -vvv \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -r ./ \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}
+
       - name: Run deployment commands
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no \
+              ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             set -e
-
             cd ${{ secrets.VPS_PATH }}
 
-            # Использование Docker для установки зависимостей
-            echo "👉 Обновление кода завершено. Начинаю установку зависимостей Laravel через Docker..."
-
+            # Установка Composer зависимостей
             docker run --rm \
               -v $PWD:/app \
               -w /app \
               composer install --no-interaction --prefer-dist --optimize-autoloader
 
-            echo "📦 Установка зависимостей завершена!"
-
-
-
-            echo "🐳 Сборка и запуск Docker..."
+            # Сборка и запуск контейнеров
             docker-compose down
             ./vendor/bin/sail build --no-cache
             ./vendor/bin/sail up -d
+
+
+
+            # Запуск миграций
+            echo "🔄 Запуск миграций..."
+            ./vendor/bin/sail artisan migrate --force
+
+            # Сборка фронтенда
+            echo "📦 Установка NPM зависимостей..."
+            ./vendor/bin/sail npm install
+            ./vendor/bin/sail npm run prod
+
+            # Node‑services
+            if [ -d "node-services" ]; then
+              echo "📦 Node‑services deps..."
+              cd node-services
+              ../vendor/bin/sail npm install
+              cd ..
+            fi
+
+            # Перезапуск сервисов
+            echo "🔄 Рестарт сервисов..."
+            ./vendor/bin/sail down
+            ./vendor/bin/sail up -d
+
+            echo "🚀 Деплой успешно завершен!"
           EOF
