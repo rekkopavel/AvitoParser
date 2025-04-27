@@ -49,15 +49,14 @@ jobs:
 
            # Установка NPM зависимостей в основном каталоге
            docker run --rm -v $PWD:/app -w /app node:latest npm install --no-audit --progress=false
-
-           # Установка NPM зависимостей в директории node-services
-           if [ -d "node-services" ]; then
-           echo "📦 Установка зависимостей в node-services..."
-           cd node-services
-           docker run --rm -v $PWD:/app -w /app node:latest npm install --no-audit --progress=false
-           cd ..
-           fi
-
+           # Установка NPM зависимостей в директории node-services/parser
+           if [ -d "node-services/parser" ]; then
+            echo "📦 Установка зависимостей в node-services/parser..."
+            docker run --rm \
+            -v $PWD/node-services/parser:/app \
+            -w /app \
+            node:latest npm install --no-audit --progress=false
+            fi
 
             # Установка прав
             chmod -R 777 storage bootstrap/cache node-services node_modules public
