@@ -50,6 +50,8 @@ jobs:
               -w /app \
               composer install --no-interaction --prefer-dist --optimize-autoloader
 
+              chmod -R 777 storage bootstrap/cache node-services
+
             # Сборка и запуск контейнеров
             docker-compose down
             ./vendor/bin/sail build --no-cache

@@ -25,9 +25,11 @@ services:
             - pgsql
             - redis
     pgsql:
-        image: 'postgres:17'
+        build:
+            context: ./docker/pgsql
+            dockerfile: Dockerfile
         ports:
-            - '${FORWARD_DB_PORT:-5432}:5432'
+            - '${FORWARD_DB_PORT:-432}:432'
         environment:
             PGPASSWORD: '${DB_PASSWORD:-secret}'
             POSTGRES_DB: '${DB_DATABASE}'
@@ -43,6 +45,8 @@ services:
                 - CMD
                 - pg_isready
                 - '-q'
+                - '-p'
+                - '432'
                 - '-d'
                 - '${DB_DATABASE}'
                 - '-U'
