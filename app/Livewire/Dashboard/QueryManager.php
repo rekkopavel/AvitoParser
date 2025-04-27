@@ -51,14 +51,14 @@ class QueryManager extends Component
             'title' => 'required|string|max:255',
             'uri' => 'required|url',
             'city' => 'nullable|string|max:255',
-            'status' => 'required|boolean',
+            'active' => 'required|boolean',
         ]);
 
         Query::create([
             'title' => $this->title,
             'uri' => $this->uri,
             'city' => $this->city,
-            'status' => $this->active,
+            'active' => $this->active,
         ]);
 
         $this->resetForm();

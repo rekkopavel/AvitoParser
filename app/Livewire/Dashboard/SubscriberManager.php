@@ -50,7 +50,7 @@ class SubscriberManager extends Component
         $this->validate([
             'name' => 'required|string|max:255',
             'telegram_id' => 'required|int',
-            'mail' => 'nullable|mail|max:255',
+            'mail' => 'nullable|email|max:255',
             'active' => 'required|boolean',
         ]);
 
