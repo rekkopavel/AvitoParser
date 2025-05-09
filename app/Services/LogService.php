@@ -6,57 +6,60 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Log;
 
-class LogService
+use Psr\Log\LoggerInterface;
+
+class LogService implements LoggerInterface
 {
-    public function emergency(string $message, ?\Throwable $error = null): void
+    public function emergency($message, array $context = []): void
     {
-        $errorInfo = $this->getErrorInfo($error);
-        Log::emergency($message.($errorInfo ? "\n".$errorInfo : ''));
-
+        $errorInfo = $this->getErrorInfo($context['exception'] ?? null);
+        Log::emergency($message . ($errorInfo ? "\n" . $errorInfo : ''), $context);
     }
 
-    public function alert(string $message, ?\Throwable $error = null): void
+    public function alert($message, array $context = []): void
     {
-        $errorInfo = $this->getErrorInfo($error);
-        Log::alert($message.($errorInfo ? "\n".$errorInfo : ''));
-
+        $errorInfo = $this->getErrorInfo($context['exception'] ?? null);
+        Log::alert($message . ($errorInfo ? "\n" . $errorInfo : ''), $context);
     }
 
-    public function critical(string $message, ?\Throwable $error = null): void
+    public function critical($message, array $context = []): void
     {
-        $errorInfo = $this->getErrorInfo($error);
-        Log::critical($message.($errorInfo ? "\n".$errorInfo : ''));
-
+        $errorInfo = $this->getErrorInfo($context['exception'] ?? null);
+        Log::critical($message . ($errorInfo ? "\n" . $errorInfo : ''), $context);
     }
 
-    public function error(string $message, ?\Throwable $error = null): void
+    public function error($message, array $context = []): void
     {
-        $errorInfo = $this->getErrorInfo($error);
-        Log::error($message.($errorInfo ? "\n".$errorInfo : ''));
-
+        $errorInfo = $this->getErrorInfo($context['exception'] ?? null);
+        Log::error($message . ($errorInfo ? "\n" . $errorInfo : ''), $context);
     }
 
-    public function warning(string $message): void
+    public function warning($message, array $context = []): void
     {
-        Log::warning($message);
+        Log::warning($message, $context);
     }
 
-    public function notice(string $message): void
+    public function notice($message, array $context = []): void
     {
-        Log::notice($message);
+        Log::notice($message, $context);
     }
 
-    public function info(string $message): void
+    public function info($message, array $context = []): void
     {
-        Log::info($message);
+        Log::info($message, $context);
     }
 
-    public function debug(string $message): void
+    public function debug($message, array $context = []): void
     {
-        Log::debug($message);
+        Log::debug($message, $context);
     }
 
-    private function getErrorInfo(?\Throwable $e): string
+    public function log($level, $message, array $context = []): void
+    {
+        Log::log($level, $message, $context);
+    }
+
+    private function getErrorInfo(?\Throwable $e = null): string
     {
         return $e ? "Additional information: {$e->getFile()}:{$e->getLine()} - {$e->getMessage()}" : '';
     }
